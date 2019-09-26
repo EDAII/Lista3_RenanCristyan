@@ -5,46 +5,11 @@
 
 # Algorítmos de Ordenação O(n*log(n))
 
-# Implementação do Insertion Sort
-def insertion_sort(vetor):
-    tam = len(vetor)
-    i, j = 0, 0
+from random import randint
+from mediana_linear import *
 
-    while i < tam:
-        j = i
-
-        while (j != 0) and vetor[j] < vetor[j-1]:
-            swap(vetor, j, j-1)
-            j -= 1
-        
-        i += 1
-
-# Cria um vetor aleatorio (sem números repetidos) de tamanho variavel
-def vetor_aleatorio(tam):
-    vetor = []
-
-    i = 0
-    while i < tam:
-        num = randint(0,tam)
-        if num not in vetor:
-            vetor.append(num)
-            i += 1
-
-    return vetor
-
-# Troca os valores de posição dentro do vetor
-def swap(vetor, a, b):
-    aux = vetor[a]
-    vetor[a] = vetor[b]
-    vetor[b] = aux
-
-# Divide um vetor em 2 e exclui pos_pivo
-def partition(vetor, pos_pivo):
-    
-    left = vetor[:pos_pivo]
-    right = vetor[pos_pivo+1:]
-
-    return left, right
+# O principal gargalo de desempenho é criar uma lista de valores aleatórios não repetidos
+# Por enquanto a mediana linear só funciona com valores não repetidos
 
 # Função que recebe dois vetores a e b, realiza o merge (mesclagem)
 #  e retorna um vetor m
@@ -109,7 +74,7 @@ def merge_sort(vetor):
 #  resolvi tentar uma abordagem diferente para retornar os valores corretos
 
 # O funcionamento do algorítmo é o seguinte:
-#  Ele começa parecido com o Quick Sort original, escolhendo um pivô (no caso aqui ele escolhe o meio do vetor)
+#  Ele começa parecido com o Quick Sort original, escolhendo um pivô (agora o pivô é a mediana do vetor calculada em tempo linear)
 #  e separando os valores menores que o pivô para a esquerda e os maiores para direita, garantindo que o pivô
 #  já está na posição correta. Porém, após particionar o vetor entre esquerda e direita, o algoritmo insere
 #  o pivô em um vetor auxiliar 'bvec' e chama o Insertion Sort para garantir que a cada inserção o vetor 
@@ -126,7 +91,9 @@ def merge_sort(vetor):
 def quick_insertion_sort(vetor, bvec=[]): # Na primeira chamada bvec não pode ser alterado ou o algorítmo não funcionará corretamente
     left = 0
     right = len(vetor) - 1
-    pivo = (left+right)//2
+
+    p = mediana_real(vetor, len(vetor)//2)
+    pivo = busca_sequencial(vetor, p)
 
     if len(vetor) == 1:
         bvec.append(vetor[0])
