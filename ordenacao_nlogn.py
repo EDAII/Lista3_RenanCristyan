@@ -127,7 +127,7 @@ def quick_insertion_sort(vetor, bvec=[]): # Na primeira chamada bvec não pode s
                 break
             swap(vetor, left, right)
 
-    L, R = partition(vetor, pivo)
+    L, R = my_partition(vetor, pivo)
     bvec.append(vetor[pivo])
     insertion_sort(bvec)
 
@@ -138,3 +138,29 @@ def quick_insertion_sort(vetor, bvec=[]): # Na primeira chamada bvec não pode s
 
     if len(bvec) == len(vetor):
         return bvec
+
+# As duas funções abaixo foram extraídas de https://wiki.python.org.br/QuickSort
+
+# Função auxiliar de sort()
+def partition(array, begin, end, cmp):
+    while begin < end:
+         while begin < end:
+            if cmp(array[begin], array[end]):
+                (array[begin], array[end]) = (array[end], array[begin])
+                break
+            end -= 1
+         while begin < end:
+            if cmp(array[begin], array[end]):
+                (array[begin], array[end]) = (array[end], array[begin])
+                break
+            begin += 1
+    return begin
+
+# Implementação do Quick sort
+def sort(array, cmp=lambda x, y: x > y, begin=None, end=None):
+    if begin is None: begin = 0
+    if end   is None: end   = len(array)
+    if begin < end:
+        i = partition(array, begin, end-1, cmp)
+        sort(array, cmp, begin, i)
+        sort(array, cmp, i+1, end)

@@ -9,6 +9,18 @@ def swap(vetor, a, b):
     vetor[a] = vetor[b]
     vetor[b] = aux
 
+# Mede o desempenho de cada função individualmente
+def measure(func, vetor, retornar_t_exec=False):
+    start = time()
+    func(vetor)
+    finish = time()
+    t_exec = finish - start
+
+    print('{} ordena {} elementos em \n{} segundos'.format(func.__name__, len(vetor), t_exec))
+
+    if retornar_t_exec:
+        return t_exec
+
 def insertion_sort(vetor):
     tam = len(vetor)
     i, j = 0, 0
@@ -36,16 +48,16 @@ def random_list(size, max_value=None, repeat=True):
 		
 		if repeat:
 			lista.append(num)
+			i += 1
 		else:
 			if num not in lista:
 				lista.append(num)
-			
-		i += 1
+				i += 1
 
 	return lista
 
 # Divide um vetor em 2 e exclui pos_pivo
-def partition(vetor, pos_pivo):
+def my_partition(vetor, pos_pivo):
     
     left = vetor[:pos_pivo]
     right = vetor[pos_pivo+1:]
@@ -176,7 +188,7 @@ def mediana_real(vetor, k):
 	pos_m = busca_sequencial(v, m)
 	almost_quick_sort(v, pos_m)
 	pos_m = busca_sequencial(v, m)
-	L, R = partition(v, pos_m)
+	L, R = my_partition(v, pos_m)
 
 	if len(L) == k:
 		return m
